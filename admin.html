@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+.header {
+  background: linear-gradient(135deg, #ff4d4d, #ff9966);
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #334155;
+  text-align: center;
+}
+
+th {
+  background: #1e293b;
+}
+
+tr:nth-child(even) {
+  background: #1a2235;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.paid {
+  background: green;
+}
+
+.unpaid {
+  background: red;
+}
+
+button {
+  padding: 10px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  🧑‍💼 Admin Panel
+</div>
+
+<div class="container">
+
+  <h3>📊 Users List</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Payment Status</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody id="usersTable">
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

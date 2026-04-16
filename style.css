@@ -1,0 +1,190 @@
+
+      
+      body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0b1220;
+}
+
+.payment-content {
+  max-width: 500px;
+  margin: auto;
+}
+
+.card {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  border-radius: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin: 5px 0;
+}
+
+.progress-box {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: #4e73df;
+    border-radius: 10px;
+}
+
+.remaining {
+    text-align: center;
+    color: gray;
+}
+
+.amount-box {
+    display: flex;
+    justify-content: space-between;
+    background: #f0f1f4;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 8px;
+}
+
+.amount-box b {
+    color: #4e73df;
+}
+.fixed-amount {
+    background: #f5f6fa;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 5px;
+}
+form {
+    text-align: left;
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+/* ===== LOADING OVERLAY ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 18, 32, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999;
+}
+
+/* SPINNER */
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #1f2937;
+  border-top: 5px solid #635bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+/* ANIMATION */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+  color: #fff;
+  font-size: 16px;
+}
+
+input {
+    width: 92%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+button {
+    width: 98%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #4e73df, #6c8cff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.info {
+    background: #e7f3ff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.dashboard-btn {
+    background: orange;
+    margin-top: 10px;
+}
+
+.empty {
+    color: gray;
+    font-style: italic;
+}
+
+/* Default input */
+#phone {
+  width: 92%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #494c50; /* default gray */
+  background: #c9cbcf;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+/* 🟢 VALID */
+#phone.valid {
+  border-color: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+/* 🔴 INVALID */
+#phone.invalid {
+  border-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
