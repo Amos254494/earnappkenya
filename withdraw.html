@@ -2,59 +2,240 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Withdraw</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Withdrawal Page</title>
 
 <style>
+/* ===== FULL PAGE ===== */
 body {
-  margin: 0;
-  font-family: Arial;
-  background: #0b0f19;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-.box {
-  width: 350px;
-  background: #111827;
-  padding: 25px;
-  border-radius: 15px;
+/* Center like payment page style */
+.withdrawal-page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 10px;
+/* ===== MAIN BOX (PAYMENT STYLE) ===== */
+.withdrawal-container {
+    width: 100%;
+    max-width: 420px;
+
+    background: #ffffff;
+    border-radius: 12px;
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-input {
-  background: #0f172a;
-  color: white;
+/* ===== TITLE ===== */
+.withdraw-header {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-button {
-  background: linear-gradient(90deg,#3b82f6,#7c3aed);
-  color: white;
-  cursor: pointer;
+.withdraw-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #222;
+}
+
+.withdraw-subtext {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* ===== BALANCE BOX (CLEAR LIKE PAYMENT UI) ===== */
+.balance-box {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.balance-box span {
+    font-size: 12px;
+    color: #777;
+}
+
+.balance-box h3 {
+    margin: 5px 0 0;
+    font-size: 22px;
+    color: #0a7cff;
+}
+
+/* ===== INPUTS ===== */
+.withdrawal-container input,
+.withdrawal-container select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+
+    font-size: 15px;
+    border-radius: 8px;
+
+    border: 1px solid #ddd;
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.withdrawal-container input:focus,
+.withdrawal-container select:focus {
+    border-color: #0a7cff;
+}
+
+/* ===== BUTTON ===== */
+.withdraw-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #0a7cff;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.withdraw-btn:hover {
+    background: #0866d1;
+}
+
+/* ===== STATUS ===== */
+.status-message {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    display: none;
+}
+
+.success {
+    background: #e7f8ee;
+    color: #1a9b4b;
+}
+
+.error {
+    background: #ffeaea;
+    color: #d93025;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 500px) {
+    .withdrawal-container {
+        padding: 15px;
+    }
+
+    .withdraw-header h2 {
+        font-size: 18px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>💸 Withdraw</h2>
+<div class="withdrawal-page">
 
-  <p>🪙 Ksh: <span id="Ksh">0</span></p>
+    <div class="withdrawal-container">
 
-  <input type="text" id="phone" placeholder="M-Pesa Number">
-  <input type="number" id="amount" placeholder="Ksh to withdraw">
+        <!-- TITLE -->
+        <div class="withdraw-header">
+            <h2>Withdraw Funds</h2>
+            <div class="withdraw-subtext">Secure Payment Withdrawal</div>
+        </div>
 
-  <button onclick="withdraw()">Request Withdrawal</button>
+        <!-- BALANCE -->
+        <div class="balance-box">
+            <span>Available Balance</span>
+            <h3 id="balance">KSH 0</h3>
+        </div>
+
+        <!-- FORM -->
+        <input type="text" id="name" placeholder="Full Name">
+
+        <select id="method">
+            <option value="">Select Method</option>
+            <option value="mpesa">M-Pesa</option>
+            <option value="bank">Bank Transfer</option>
+        </select>
+
+        <input type="number" id="amount" placeholder="Enter Amount">
+
+        <input type="text" id="account" placeholder="Phone / Account Number">
+
+        <button class="withdraw-btn" onclick="withdraw()">Withdraw</button>
+
+        <!-- STATUS -->
+        <div id="status" class="status-message"></div>
+
+    </div>
+
 </div>
+
+<script>
+let balance = 0;
+
+function withdraw() {
+    let name = document.getElementById("name").value;
+    let method = document.getElementById("method").value;
+    let amount = parseInt(document.getElementById("amount").value);
+    let account = document.getElementById("account").value;
+
+    let status = document.getElementById("status");
+
+    status.style.display = "block";
+
+    if (!name || !method || !amount || !account) {
+        status.className = "status-message error";
+        status.innerText = "Please fill all fields";
+        return;
+    }
+
+    if (amount <= 0) {
+        status.className = "status-message error";
+        status.innerText = "Enter valid amount";
+        return;
+    }
+
+    if (amount > balance) {
+        status.className = "status-message error";
+        status.innerText = "Insufficient balance";
+        return;
+    }
+
+    status.className = "status-message";
+    status.innerText = "Processing...";
+
+    setTimeout(() => {
+        balance -= amount;
+        document.getElementById("balance").innerText = "KSH " + balance;
+
+        status.className = "status-message success";
+        status.innerText = "Withdrawal successful";
+    }, 1500);
+}
+</script>
+
 </body>
 </html>
