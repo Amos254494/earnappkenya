@@ -4,90 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Earn App</title>
+<title>Register</title>
 
 <style>
+/* ===== DARK BACKGROUND ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background: #111827;
+    color: white;
 }
 
-/* FULL SCREEN */
+/* CENTER CONTAINER */
 .container {
     width: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
 }
 
 /* CARD */
-.box {
+.card {
     width: 100%;
-    max-width: 400px;
-    padding: 20px;
+    max-width: 420px;
+    background: #1f2937;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* TITLE */
 h2 {
     text-align: center;
+    color: #60a5fa;
+    margin-bottom: 5px;
 }
 
-/* INPUT */
+.subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 20px;
+}
+
+/* INPUTS */
 input {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     margin: 10px 0;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
+    border: 1px solid #374151;
+    font-size: 15px;
+    outline: none;
+
+    background: #111827;
+    color: white;
+}
+
+input::placeholder {
+    color: #9ca3af;
+}
+
+input:focus {
+    border-color: #60a5fa;
 }
 
 /* BUTTON */
 button {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     border: none;
-    border-radius: 8px;
-    background: #0a7cff;
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
     color: white;
     font-size: 16px;
-    cursor: pointer;
-}
+    font-weight: bold;
 
-/* SWITCH */
-.switch {
-    text-align: center;
+    cursor: pointer;
     margin-top: 10px;
-    color: #0a7cff;
-    cursor: pointer;
+    transition: 0.2s ease;
 }
 
-/* BONUS */
+button:hover {
+    transform: scale(1.02);
+}
+
+/* BONUS TEXT */
 #bonusMessage {
     display: none;
     margin-top: 15px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     text-align: center;
-    animation: blinkColors 1s infinite;
+    animation: blink 1s infinite;
 }
 
-@keyframes blinkColors {
-    0% { color: red; }
-    25% { color: green; }
-    50% { color: blue; }
-    75% { color: orange; }
-    100% { color: red; }
+/* BLINK COLORS */
+@keyframes blink {
+    0% { color: #ef4444; }
+    25% { color: #22c55e; }
+    50% { color: #3b82f6; }
+    75% { color: #f59e0b; }
+    100% { color: #ef4444; }
 }
 
-.hidden {
-    display: none;
-}
-
-.message {
+/* LINK */
+.link {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #60a5fa;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -96,35 +129,20 @@ button {
 
 <div class="container">
 
-    <div class="box">
+    <div class="card">
 
-        <!-- REGISTER -->
-        <div id="register">
-            <h2>Register</h2>
+        <h2>Create Account</h2>
+        <div class="subtitle">Register to start earning</div>
 
-            <input type="text" id="phoneReg" placeholder="Phone Number">
-            <input type="password" id="pinReg" placeholder="Create PIN">
+        <input type="text" id="phone" placeholder="Phone Number">
+        <input type="password" id="pin" placeholder="Create PIN">
 
-            <button onclick="register()">Register</button>
+        <button onclick="register()">Register</button>
 
-            <div class="switch" onclick="showLogin()">Already have account? Login</div>
+        <div id="bonusMessage">🎉 "Get 500 Free Bonus" 🎉</div>
 
-            <div id="bonusMessage">🎉 "Get 500 Free Bonus" 🎉</div>
-            <div id="regMsg" class="message"></div>
-        </div>
-
-        <!-- LOGIN -->
-        <div id="login" class="hidden">
-            <h2>Login</h2>
-
-            <input type="text" id="phoneLog" placeholder="Phone Number">
-            <input type="password" id="pinLog" placeholder="Enter PIN">
-
-            <button onclick="login()">Login</button>
-
-            <div class="switch" onclick="showRegister()">Create account</div>
-
-            <div id="logMsg" class="message"></div>
+        <div class="link" onclick="goLogin()">
+            Already have an account? Login
         </div>
 
     </div>
@@ -132,54 +150,28 @@ button {
 </div>
 
 <script>
-// TEMP STORAGE (only works while page is open)
-let tempUser = {};
-let balance = 0;
-
-// SWITCH
-function showLogin() {
-    document.getElementById("register").classList.add("hidden");
-    document.getElementById("login").classList.remove("hidden");
-}
-
-function showRegister() {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("register").classList.remove("hidden");
-}
-
-// REGISTER
 function register() {
-    let phone = document.getElementById("phoneReg").value;
-    let pin = document.getElementById("pinReg").value;
+    let phone = document.getElementById("phone").value;
+    let pin = document.getElementById("pin").value;
 
     if (!phone || !pin) {
-        document.getElementById("regMsg").innerText = "Fill all fields";
+        alert("Please fill all fields");
         return;
     }
 
-    tempUser.phone = phone;
-    tempUser.pin = pin;
+    localStorage.setItem("userPhone", phone);
+    localStorage.setItem("userPin", pin);
+    localStorage.setItem("paid", "false");
 
-    balance = 500;
-
-    document.getElementById("regMsg").innerText = "Registered successfully!";
     document.getElementById("bonusMessage").style.display = "block";
+
+    setTimeout(() => {
+        window.location.href = "payment.html";
+    }, 1500);
 }
 
-// LOGIN
-function login() {
-    let phone = document.getElementById("phoneLog").value;
-    let pin = document.getElementById("pinLog").value;
-
-    if (phone === tempUser.phone && pin === tempUser.pin) {
-        document.getElementById("logMsg").innerText = "Login successful!";
-
-        setTimeout(() => {
-            alert("Welcome! Your balance is KSH " + balance);
-        }, 500);
-    } else {
-        document.getElementById("logMsg").innerText = "Invalid details";
-    }
+function goLogin() {
+    window.location.href = "login.html";
 }
 </script>
 
