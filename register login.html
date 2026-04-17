@@ -150,6 +150,7 @@ button:hover {
 </div>
 
 <script>
+
 function register() {
     let phone = document.getElementById("phone").value;
     let pin = document.getElementById("pin").value;
@@ -159,20 +160,23 @@ function register() {
         return;
     }
 
+    // Save user
     localStorage.setItem("userPhone", phone);
     localStorage.setItem("userPin", pin);
-    localStorage.setItem("paid", "false");
 
+    // IMPORTANT: mark NOT paid yet
+    localStorage.setItem("paid", "false");
+    localStorage.setItem("registered", "true");
+
+    // show bonus
     document.getElementById("bonusMessage").style.display = "block";
 
+    // force redirect to payment page
     setTimeout(() => {
         window.location.href = "payment.html";
     }, 1500);
 }
-
-function goLogin() {
-    window.location.href = "login.html";
-}
+    
 </script>
 
 </body>
