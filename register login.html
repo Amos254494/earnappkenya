@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Earn App</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* FULL SCREEN */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+.box {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* TITLE */
+h2 {
+    text-align: center;
+}
+
+/* INPUT */
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #0a7cff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* SWITCH */
+.switch {
+    text-align: center;
+    margin-top: 10px;
+    color: #0a7cff;
+    cursor: pointer;
+}
+
+/* BONUS */
+#bonusMessage {
+    display: none;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    animation: blinkColors 1s infinite;
+}
+
+@keyframes blinkColors {
+    0% { color: red; }
+    25% { color: green; }
+    50% { color: blue; }
+    75% { color: orange; }
+    100% { color: red; }
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
+    text-align: center;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="box">
+
+        <!-- REGISTER -->
+        <div id="register">
+            <h2>Register</h2>
+
+            <input type="text" id="phoneReg" placeholder="Phone Number">
+            <input type="password" id="pinReg" placeholder="Create PIN">
+
+            <button onclick="register()">Register</button>
+
+            <div class="switch" onclick="showLogin()">Already have account? Login</div>
+
+            <div id="bonusMessage">🎉 "Get 500 Free Bonus" 🎉</div>
+            <div id="regMsg" class="message"></div>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="login" class="hidden">
+            <h2>Login</h2>
+
+            <input type="text" id="phoneLog" placeholder="Phone Number">
+            <input type="password" id="pinLog" placeholder="Enter PIN">
+
+            <button onclick="login()">Login</button>
+
+            <div class="switch" onclick="showRegister()">Create account</div>
+
+            <div id="logMsg" class="message"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+// TEMP STORAGE (only works while page is open)
+let tempUser = {};
+let balance = 0;
+
+// SWITCH
+function showLogin() {
+    document.getElementById("register").classList.add("hidden");
+    document.getElementById("login").classList.remove("hidden");
+}
+
+function showRegister() {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("register").classList.remove("hidden");
+}
+
+// REGISTER
+function register() {
+    let phone = document.getElementById("phoneReg").value;
+    let pin = document.getElementById("pinReg").value;
+
+    if (!phone || !pin) {
+        document.getElementById("regMsg").innerText = "Fill all fields";
+        return;
+    }
+
+    tempUser.phone = phone;
+    tempUser.pin = pin;
+
+    balance = 500;
+
+    document.getElementById("regMsg").innerText = "Registered successfully!";
+    document.getElementById("bonusMessage").style.display = "block";
+}
+
+// LOGIN
+function login() {
+    let phone = document.getElementById("phoneLog").value;
+    let pin = document.getElementById("pinLog").value;
+
+    if (phone === tempUser.phone && pin === tempUser.pin) {
+        document.getElementById("logMsg").innerText = "Login successful!";
+
+        setTimeout(() => {
+            alert("Welcome! Your balance is KSH " + balance);
+        }, 500);
+    } else {
+        document.getElementById("logMsg").innerText = "Invalid details";
+    }
+}
+</script>
+
+</body>
+</html>
